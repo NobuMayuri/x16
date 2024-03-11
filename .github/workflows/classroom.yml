@@ -1,16 +1,295 @@
-name: GitHub Classroom Workflow
-
-on: [push]
-
+name: Autograding Tests
+'on':
+- push
+- workflow_dispatch
+- repository_dispatch
 permissions:
   checks: write
   actions: read
   contents: read
-
 jobs:
-  build:
-    name: Autograding
+  run-autograding-tests:
     runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
     steps:
-      - uses: actions/checkout@v2
-      - uses: education/autograding@v1
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: 1. Test Bits
+      id: 1-test-bits
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: 1. Test Bits
+        setup-command: ''
+        command: make test-bits
+        timeout: 5
+        max-score: 5
+    - name: 2. Test Instruction
+      id: 2-test-instruction
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: 2. Test Instruction
+        setup-command: ''
+        command: make test-instruction
+        timeout: 5
+        max-score: 2
+    - name: 5. Test control for ADD instruction
+      id: 5-test-control-for-add-instruction
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: 5. Test control for ADD instruction
+        setup-command: ''
+        command: make test-control-add
+        timeout: 5
+        max-score: 10
+    - name: 6. Test control for AND instruction
+      id: 6-test-control-for-and-instruction
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: 6. Test control for AND instruction
+        setup-command: ''
+        command: make test-control-and
+        timeout: 5
+        max-score: 10
+    - name: 7. Test control for BR instruction
+      id: 7-test-control-for-br-instruction
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: 7. Test control for BR instruction
+        setup-command: ''
+        command: make test-control-br
+        timeout: 5
+        max-score: 10
+    - name: 8. Test control for JMP instruction
+      id: 8-test-control-for-jmp-instruction
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: 8. Test control for JMP instruction
+        setup-command: ''
+        command: make test-control-jmp
+        timeout: 5
+        max-score: 10
+    - name: 9. Test control for JSR instruction
+      id: 9-test-control-for-jsr-instruction
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: 9. Test control for JSR instruction
+        setup-command: ''
+        command: make test-control-jsr
+        timeout: 5
+        max-score: 10
+    - name: 10. Test control for LD instruction
+      id: 10-test-control-for-ld-instruction
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: 10. Test control for LD instruction
+        setup-command: ''
+        command: make test-control-ld
+        timeout: 5
+        max-score: 10
+    - name: 11. Test control for LDI instruction
+      id: 11-test-control-for-ldi-instruction
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: 11. Test control for LDI instruction
+        setup-command: ''
+        command: make test-control-ldi
+        timeout: 5
+        max-score: 10
+    - name: 12. Test control for LDR instruction
+      id: 12-test-control-for-ldr-instruction
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: 12. Test control for LDR instruction
+        setup-command: ''
+        command: make test-control-ldr
+        timeout: 5
+        max-score: 10
+    - name: 13. Test control for ST instruction
+      id: 13-test-control-for-st-instruction
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: 13. Test control for ST instruction
+        setup-command: ''
+        command: make test-control-st
+        timeout: 5
+        max-score: 10
+    - name: 14. Test control for STI instruction
+      id: 14-test-control-for-sti-instruction
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: 14. Test control for STI instruction
+        setup-command: ''
+        command: make test-control-sti
+        timeout: 5
+        max-score: 10
+    - name: 15. Test control for STR instruction
+      id: 15-test-control-for-str-instruction
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: 15. Test control for STR instruction
+        setup-command: ''
+        command: make test-control-str
+        timeout: 5
+        max-score: 10
+    - name: 16. Test running the emulator on test&#47;samples&#47;test.obj
+      id: 16-test-running-the-emulator-on-test-47-samples-47-test-obj
+      uses: education/autograding-io-grader@v1
+      with:
+        test-name: 16. Test running the emulator on test&#47;samples&#47;test.obj
+        command: "./x16 test/samples/test.obj"
+        input: ''
+        expected-output: "**********HALT"
+        comparison-method: contains
+        timeout: 5
+        max-score: 10
+    - name: 17. Test assembler with just one line of code
+      id: 17-test-assembler-with-just-one-line-of-code
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: 17. Test assembler with just one line of code
+        setup-command: make xas
+        command: make ARGS="Xas.simple" test
+        timeout: 5
+        max-score: 10
+    - name: 18. Test assembler with comments
+      id: 18-test-assembler-with-comments
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: 18. Test assembler with comments
+        setup-command: make xas
+        command: make ARGS="Xas.comment" test
+        timeout: 5
+        max-score: 10
+    - name: 19. Test assembler with unused prior label
+      id: 19-test-assembler-with-unused-prior-label
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: 19. Test assembler with unused prior label
+        setup-command: make xas
+        command: make ARGS="Xas.prior" test
+        timeout: 5
+        max-score: 10
+    - name: 20. Test assembler with multiple instructions
+      id: 20-test-assembler-with-multiple-instructions
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: 20. Test assembler with multiple instructions
+        setup-command: make xas
+        command: make ARGS="Xas.multi" test
+        timeout: 5
+        max-score: 10
+    - name: 21. Test assembler with forward labels
+      id: 21-test-assembler-with-forward-labels
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: 21. Test assembler with forward labels
+        setup-command: make xas
+        command: make ARGS="Xas.forward" test
+        timeout: 5
+        max-score: 10
+    - name: 22. Test assembler with a loop program
+      id: 22-test-assembler-with-a-loop-program
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: 22. Test assembler with a loop program
+        setup-command: ''
+        command: make ARGS="Xas.loop" test
+        timeout: 5
+        max-score: 10
+    - name: 23. Test with all instructions
+      id: 23-test-with-all-instructions
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: 23. Test with all instructions
+        setup-command: make xas
+        command: make ARGS="Xas.all" test
+        timeout: 5
+        max-score: 10
+    - name: 24. Test assembler for an error with nonexistent label
+      id: 24-test-assembler-for-an-error-with-nonexistent-label
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: 24. Test assembler for an error with nonexistent label
+        setup-command: make xas
+        command: make ARGS="Xas.error.nolabel" test
+        timeout: 10
+        max-score: 10
+    - name: 25. Test assembler for an error with missing % before reg
+      id: 25-test-assembler-for-an-error-with-missing-before-reg
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: 25. Test assembler for an error with missing % before reg
+        setup-command: make xas
+        command: make ARGS="Xas.error.reg" test
+        timeout: 5
+        max-score: 10
+    - name: 26. Test assembler for an error with missing  $ before value
+      id: 26-test-assembler-for-an-error-with-missing-before-value
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: 26. Test assembler for an error with missing  $ before value
+        setup-command: make xas
+        command: make ARGS="Xas.error.imm" test
+        timeout: 5
+        max-score: 10
+    - name: 27. Test Style
+      id: 27-test-style
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: 27. Test Style
+        setup-command: sudo pip3 install cpplint
+        command: cpplint *.c *.h
+        timeout: 10
+        max-score: 10
+    - name: 28. Test X16 Memory
+      id: 28-test-x16-memory
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: 28. Test X16 Memory
+        setup-command: sudo apt install valgrind; make x16
+        command: valgrind --leak-check=full --show-leak-kinds=all --error-exitcode=1
+          ./x16 test/samples/test.obj
+        timeout: 10
+        max-score: 5
+    - name: 29. Test XAS Memory
+      id: 29-test-xas-memory
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: 29. Test XAS Memory
+        setup-command: make x16; make xas; sudo apt install valgrind
+        command: valgrind --leak-check=full --show-leak-kinds=all --error-exitcode=1
+          ./xas test/samples/test.s
+        timeout: 10
+        max-score: 8
+    - name: Autograding Reporter
+      uses: education/autograding-grading-reporter@v1
+      env:
+        1-TEST-BITS_RESULTS: "${{steps.1-test-bits.outputs.result}}"
+        2-TEST-INSTRUCTION_RESULTS: "${{steps.2-test-instruction.outputs.result}}"
+        5-TEST-CONTROL-FOR-ADD-INSTRUCTION_RESULTS: "${{steps.5-test-control-for-add-instruction.outputs.result}}"
+        6-TEST-CONTROL-FOR-AND-INSTRUCTION_RESULTS: "${{steps.6-test-control-for-and-instruction.outputs.result}}"
+        7-TEST-CONTROL-FOR-BR-INSTRUCTION_RESULTS: "${{steps.7-test-control-for-br-instruction.outputs.result}}"
+        8-TEST-CONTROL-FOR-JMP-INSTRUCTION_RESULTS: "${{steps.8-test-control-for-jmp-instruction.outputs.result}}"
+        9-TEST-CONTROL-FOR-JSR-INSTRUCTION_RESULTS: "${{steps.9-test-control-for-jsr-instruction.outputs.result}}"
+        10-TEST-CONTROL-FOR-LD-INSTRUCTION_RESULTS: "${{steps.10-test-control-for-ld-instruction.outputs.result}}"
+        11-TEST-CONTROL-FOR-LDI-INSTRUCTION_RESULTS: "${{steps.11-test-control-for-ldi-instruction.outputs.result}}"
+        12-TEST-CONTROL-FOR-LDR-INSTRUCTION_RESULTS: "${{steps.12-test-control-for-ldr-instruction.outputs.result}}"
+        13-TEST-CONTROL-FOR-ST-INSTRUCTION_RESULTS: "${{steps.13-test-control-for-st-instruction.outputs.result}}"
+        14-TEST-CONTROL-FOR-STI-INSTRUCTION_RESULTS: "${{steps.14-test-control-for-sti-instruction.outputs.result}}"
+        15-TEST-CONTROL-FOR-STR-INSTRUCTION_RESULTS: "${{steps.15-test-control-for-str-instruction.outputs.result}}"
+        16-TEST-RUNNING-THE-EMULATOR-ON-TEST-47-SAMPLES-47-TEST-OBJ_RESULTS: "${{steps.16-test-running-the-emulator-on-test-47-samples-47-test-obj.outputs.result}}"
+        17-TEST-ASSEMBLER-WITH-JUST-ONE-LINE-OF-CODE_RESULTS: "${{steps.17-test-assembler-with-just-one-line-of-code.outputs.result}}"
+        18-TEST-ASSEMBLER-WITH-COMMENTS_RESULTS: "${{steps.18-test-assembler-with-comments.outputs.result}}"
+        19-TEST-ASSEMBLER-WITH-UNUSED-PRIOR-LABEL_RESULTS: "${{steps.19-test-assembler-with-unused-prior-label.outputs.result}}"
+        20-TEST-ASSEMBLER-WITH-MULTIPLE-INSTRUCTIONS_RESULTS: "${{steps.20-test-assembler-with-multiple-instructions.outputs.result}}"
+        21-TEST-ASSEMBLER-WITH-FORWARD-LABELS_RESULTS: "${{steps.21-test-assembler-with-forward-labels.outputs.result}}"
+        22-TEST-ASSEMBLER-WITH-A-LOOP-PROGRAM_RESULTS: "${{steps.22-test-assembler-with-a-loop-program.outputs.result}}"
+        23-TEST-WITH-ALL-INSTRUCTIONS_RESULTS: "${{steps.23-test-with-all-instructions.outputs.result}}"
+        24-TEST-ASSEMBLER-FOR-AN-ERROR-WITH-NONEXISTENT-LABEL_RESULTS: "${{steps.24-test-assembler-for-an-error-with-nonexistent-label.outputs.result}}"
+        25-TEST-ASSEMBLER-FOR-AN-ERROR-WITH-MISSING-BEFORE-REG_RESULTS: "${{steps.25-test-assembler-for-an-error-with-missing-before-reg.outputs.result}}"
+        26-TEST-ASSEMBLER-FOR-AN-ERROR-WITH-MISSING-BEFORE-VALUE_RESULTS: "${{steps.26-test-assembler-for-an-error-with-missing-before-value.outputs.result}}"
+        27-TEST-STYLE_RESULTS: "${{steps.27-test-style.outputs.result}}"
+        28-TEST-X16-MEMORY_RESULTS: "${{steps.28-test-x16-memory.outputs.result}}"
+        29-TEST-XAS-MEMORY_RESULTS: "${{steps.29-test-xas-memory.outputs.result}}"
+      with:
+        runners: 1-test-bits,2-test-instruction,5-test-control-for-add-instruction,6-test-control-for-and-instruction,7-test-control-for-br-instruction,8-test-control-for-jmp-instruction,9-test-control-for-jsr-instruction,10-test-control-for-ld-instruction,11-test-control-for-ldi-instruction,12-test-control-for-ldr-instruction,13-test-control-for-st-instruction,14-test-control-for-sti-instruction,15-test-control-for-str-instruction,16-test-running-the-emulator-on-test-47-samples-47-test-obj,17-test-assembler-with-just-one-line-of-code,18-test-assembler-with-comments,19-test-assembler-with-unused-prior-label,20-test-assembler-with-multiple-instructions,21-test-assembler-with-forward-labels,22-test-assembler-with-a-loop-program,23-test-with-all-instructions,24-test-assembler-for-an-error-with-nonexistent-label,25-test-assembler-for-an-error-with-missing-before-reg,26-test-assembler-for-an-error-with-missing-before-value,27-test-style,28-test-x16-memory,29-test-xas-memory
