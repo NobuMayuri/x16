@@ -21,7 +21,7 @@
       "points": 2
     },
     {
-      "name": "3. Test control for ADD instruction",
+      "name": "5. Test control for ADD instruction",
       "setup": "",
       "run": "make test-control-add",
       "input": "",
@@ -31,7 +31,7 @@
       "points": 10
     },
     {
-      "name": "4. Test control for AND instruction",
+      "name": "6. Test control for AND instruction",
       "setup": "",
       "run": "make test-control-and",
       "input": "",
@@ -41,7 +41,7 @@
       "points": 10
     },
     {
-      "name": "5. Test control for BR instruction",
+      "name": "7. Test control for BR instruction",
       "setup": "",
       "run": "make test-control-br",
       "input": "",
@@ -51,7 +51,7 @@
       "points": 10
     },
     {
-      "name": "6. Test control for JMP instruction",
+      "name": "8. Test control for JMP instruction",
       "setup": "",
       "run": "make test-control-jmp",
       "input": "",
@@ -61,7 +61,7 @@
       "points": 10
     },
     {
-      "name": "7. Test control for JSR instruction",
+      "name": "9. Test control for JSR instruction",
       "setup": "",
       "run": "make test-control-jsr",
       "input": "",
@@ -71,7 +71,7 @@
       "points": 10
     },
     {
-      "name": "8. Test control for LD instruction",
+      "name": "10. Test control for LD instruction",
       "setup": "",
       "run": "make test-control-ld",
       "input": "",
@@ -81,7 +81,7 @@
       "points": 10
     },
     {
-      "name": "9. Test control for LDI instruction",
+      "name": "11. Test control for LDI instruction",
       "setup": "",
       "run": "make test-control-ldi",
       "input": "",
@@ -91,7 +91,7 @@
       "points": 10
     },
     {
-      "name": "10. Test control for LDR instruction",
+      "name": "12. Test control for LDR instruction",
       "setup": "",
       "run": "make test-control-ldr",
       "input": "",
@@ -101,7 +101,7 @@
       "points": 10
     },
     {
-      "name": "11. Test control for ST instruction",
+      "name": "13. Test control for ST instruction",
       "setup": "",
       "run": "make test-control-st",
       "input": "",
@@ -111,7 +111,7 @@
       "points": 10
     },
     {
-      "name": "12. Test control for STI instruction",
+      "name": "14. Test control for STI instruction",
       "setup": "",
       "run": "make test-control-sti",
       "input": "",
@@ -121,7 +121,7 @@
       "points": 10
     },
     {
-      "name": "13. Test control for STR instruction",
+      "name": "15. Test control for STR instruction",
       "setup": "",
       "run": "make test-control-str",
       "input": "",
@@ -131,7 +131,7 @@
       "points": 10
     },
     {
-      "name": "14. Test running the emulator on test&#47;samples&#47;test.obj",
+      "name": "16. Test running the emulator on test&#47;samples&#47;test.obj",
       "setup": "make",
       "run": "./x16 test/samples/test.obj",
       "input": "",
@@ -141,7 +141,7 @@
       "points": 10
     },
     {
-      "name": "15. Test assembler with just one line of code",
+      "name": "17. Test assembler with just one line of code",
       "setup": "make xas",
       "run": "make ARGS=\"Xas.simple\" test",
       "input": "",
@@ -151,7 +151,7 @@
       "points": 10
     },
     {
-      "name": "16. Test assembler with comments",
+      "name": "18. Test assembler with comments",
       "setup": "make xas",
       "run": "make ARGS=\"Xas.comment\" test",
       "input": "",
@@ -161,7 +161,7 @@
       "points": 10
     },
     {
-      "name": "17. Test assembler with unused prior label",
+      "name": "19. Test assembler with unused prior label",
       "setup": "make xas",
       "run": "make ARGS=\"Xas.prior\" test",
       "input": "",
@@ -171,7 +171,7 @@
       "points": 10
     },
     {
-      "name": "18. Test assembler with multiple instructions",
+      "name": "20. Test assembler with multiple instructions",
       "setup": "make xas",
       "run": "make ARGS=\"Xas.multi\" test",
       "input": "",
@@ -181,7 +181,7 @@
       "points": 10
     },
     {
-      "name": "19. Test assembler with forward labels",
+      "name": "21. Test assembler with forward labels",
       "setup": "make xas",
       "run": "make ARGS=\"Xas.forward\" test",
       "input": "",
@@ -191,7 +191,7 @@
       "points": 10
     },
     {
-      "name": "20. Test assembler with a loop program",
+      "name": "22. Test assembler with a loop program",
       "setup": "",
       "run": "make ARGS=\"Xas.loop\" test",
       "input": "",
@@ -201,7 +201,7 @@
       "points": 10
     },
     {
-      "name": "21. Test with all instructions",
+      "name": "23. Test with all instructions",
       "setup": "make xas",
       "run": "make ARGS=\"Xas.all\" test",
       "input": "",
@@ -211,7 +211,7 @@
       "points": 10
     },
     {
-      "name": "22. Test assembler for an error with nonexistent label",
+      "name": "24. Test assembler for an error with nonexistent label",
       "setup": "make xas",
       "run": "make ARGS=\"Xas.error.nolabel\" test",
       "input": "",
@@ -221,7 +221,7 @@
       "points": 10
     },
     {
-      "name": "23. Test assembler for an error with missing % before reg",
+      "name": "25. Test assembler for an error with missing % before reg",
       "setup": "make xas",
       "run": "make ARGS=\"Xas.error.reg\" test",
       "input": "",
@@ -231,7 +231,7 @@
       "points": 10
     },
     {
-      "name": "24. Test assembler for an error with missing  $ before value",
+      "name": "26. Test assembler for an error with missing  $ before value",
       "setup": "make xas",
       "run": "make ARGS=\"Xas.error.imm\" test",
       "input": "",
@@ -241,7 +241,7 @@
       "points": 10
     },
     {
-      "name": "25. Test Style",
+      "name": "27. Test Style",
       "setup": "sudo pip3 install cpplint",
       "run": "cpplint *.c *.h",
       "input": "",
@@ -251,7 +251,7 @@
       "points": 10
     },
     {
-      "name": "26. Test X16 Memory",
+      "name": "28. Test X16 Memory",
       "setup": "sudo apt install valgrind; make x16",
       "run": "valgrind --leak-check=full --show-leak-kinds=all --error-exitcode=1 ./x16 test/samples/test.obj",
       "input": "",
@@ -261,7 +261,7 @@
       "points": 5
     },
     {
-      "name": "27. Test XAS Memory",
+      "name": "29. Test XAS Memory",
       "setup": "make x16; make xas; sudo apt install valgrind",
       "run": "valgrind --leak-check=full --show-leak-kinds=all --error-exitcode=1 ./xas test/samples/test.s",
       "input": "",
