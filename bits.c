@@ -13,10 +13,7 @@ uint16_t getbit(uint16_t number, int n) {
 
 // Get bits that are the given number of bits wide
 uint16_t getbits(uint16_t number, int n, int wide) {
-    number >>= n;
-    number &= ~(1<<wide);
-    number&(1<<(wide-1));
-    return number;
+    return ((1 << wide) - 1) & (number >> (n));
 }
 
 // Set the nth bit to the given bit value and return the result
@@ -32,14 +29,10 @@ uint16_t clearbit(uint16_t number, int n) {
 
 // Sign extend a number of the given bits to 16 bits
 uint16_t sign_extend(uint16_t x, int bit_count) {
-    uint16_t leading = (1 << (bit_count-1)) & x;
-    uint16_t replace = ((~0) >> (bit_count-1)) << (bit_count-1);
-    if (leading != 0){
-        x |= replace;
-    } else {
-        x &= ~replace;
-    }
-    return x;
+    int r;
+    int m = 1U << (bit_count - 1);
+    r = (x^m) - m;
+    return r;
 }
 
 bool is_positive(uint16_t number) {
