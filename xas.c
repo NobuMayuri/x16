@@ -81,7 +81,7 @@ reg_t set_val(FILE* fp, char* store) {
     return result;
 }
 
-uint16_t parse_line(FILE* fp, char* instruction, label_t* list, int curlabel, int pc){
+uint16_t parse_line(FILE* fp, char* instruction, label_t* list, int c, int pc){
     reg_t dst, src1, src2, base;
     uint16_t result, indirect, offset, imm, cond, jsrflag, op1, op2;
     uint16_t product = 0;
@@ -129,7 +129,7 @@ uint16_t parse_line(FILE* fp, char* instruction, label_t* list, int curlabel, in
         dst = set_reg(fp, store);
         if (strstr(instruction, "i") != NULL) {
         fscanf(fp, "%s", store);
-        offset = label_lookup(list, curlabel, store);
+        offset = label_lookup(list, c, store);
         product = emit_ldi(dst, offset - pc);
         } else if (strstr(instruction, "r") != NULL) {
         src1 = set_reg(fp, store);
@@ -137,7 +137,7 @@ uint16_t parse_line(FILE* fp, char* instruction, label_t* list, int curlabel, in
         product = emit_ldr(dst, src1, offset);
         } else {
         fscanf(fp, "%s", store);
-        offset = label_lookup(list, curlabel, store);
+        offset = label_lookup(list, c, store);
         product = emit_ld(dst, offset - pc);
         }
         return product;
@@ -155,7 +155,7 @@ uint16_t parse_line(FILE* fp, char* instruction, label_t* list, int curlabel, in
             p = 1;
 
         fscanf(fp, "%s", store);
-        offset = label_lookup(list, curlabel, store);
+        offset = label_lookup(list, c, store);
         product = emit_br(n, z, p, offset - pc);
         return product;
     }
@@ -171,7 +171,7 @@ uint16_t parse_line(FILE* fp, char* instruction, label_t* list, int curlabel, in
         product = emit_jsrr(dst);
         } else {
         fscanf(fp, "%s", store);
-        offset = label_lookup(list, curlabel, store);
+        offset = label_lookup(list, c, store);
         product = emit_jsr(offset - pc);
         }
         return product;
@@ -186,7 +186,7 @@ uint16_t parse_line(FILE* fp, char* instruction, label_t* list, int curlabel, in
     if (strstr(instruction, "lea") != NULL) {
         dst = set_reg(fp, store);
         fscanf(fp, "%s", store);
-        offset = label_lookup(list, curlabel, store);
+        offset = label_lookup(list, c, store);
         product = emit_lea(dst, offset-pc);
         return product;
     }
@@ -202,7 +202,7 @@ uint16_t parse_line(FILE* fp, char* instruction, label_t* list, int curlabel, in
         dst = set_reg(fp, store);
         if (strstr(instruction, "i") != NULL) {
         fscanf(fp, "%s", store);
-        offset = label_lookup(list, curlabel, store);
+        offset = label_lookup(list, c, store);
         product = emit_sti(dst, offset - pc);
         } else if (strstr(instruction, "r") != NULL) {
         src1 = set_reg(fp, store);
@@ -210,7 +210,7 @@ uint16_t parse_line(FILE* fp, char* instruction, label_t* list, int curlabel, in
         product = emit_str(dst, src1, offset);
         } else {
         fscanf(fp, "%s", store);
-        offset = label_lookup(list, curlabel, store);
+        offset = label_lookup(list, c, store);
         product = emit_st(dst, offset - pc);
         }
         return product;
