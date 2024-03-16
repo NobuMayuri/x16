@@ -33,11 +33,10 @@ reg_t trans_reg(char* instruction){
 }
 
 label_t trans_label(char* instruction, int pc){
-    char buff[20];
-    memcpy(buff, &instruction[0], strlen(instruction)-1);
     label_t complete;
-    complete.key = buff;
+    complete.key = instruction;
     complete.val = pc;
+    return complete;
 }
 
 uint16_t trans_val(char* instruction){
@@ -56,7 +55,16 @@ uint16_t trans_val(char* instruction){
     }
 }
 
-uint16_t parse_line(FILE* fp, char* instruction, label_t* list){
+uint16_t label_lookup(label_t* list, int size, char* key) {
+    for (int i = 0; i < size; i++){
+        if (strcmp(list[i].key, key)){
+            return list[i].val;
+        }
+    }
+    exit(2);
+}
+
+uint16_t parse_line(FILE* fp, char* instruction, label_t* list, int curlabel){
     reg_t dst, src1, src2, base;
     uint16_t result, indirect, offset, imm, cond, jsrflag, op1, op2;
     uint16_t product = 0;
@@ -84,23 +92,18 @@ uint16_t parse_line(FILE* fp, char* instruction, label_t* list){
     }
 
     if (strstr(instruction, "ld") != NULL) {
+        fscanf(fp, "%s", store);
+        dst = trans_reg(store);
+        fscanf(fp, "%s", store);
+        offset = label_lookup(list, curlabel, store);
+        product = emit_ld(dst, offset-1);
         return product;
     }
 
     exit(2);
 }
 
-uint16_t label_lookup(label_t* list, char* key) {
-    char buff[20];
-    memcpy(buff, &key[0], strlen(key)-1);
-    for (int i = 0; i < sizeof(list) / sizeof(list[0]); i++){
-        printf("hi");
-        if (strcmp(list[i].key, key)){
-            return list[i].val;
-        }
-    }
-    exit(2);
-}
+
 
 int main(int argc, char** argv) {
     if (argc != 2) {
@@ -162,14 +165,14 @@ int main(int argc, char** argv) {
                 goob = htons(goob);
                 fwrite(&goob, sizeof(uint16_t), 1, a_ptr);
             } else {
-            instruction = parse_line(s_ptr, word, labels);
+            instruction = parse_line(s_ptr, word, labels, curlabel);
             instruction = htons(instruction);
             fwrite(&instruction, sizeof(uint16_t), 1, a_ptr);
             }
             good = 0;
         }
         if (good) {
-            instruction = parse_line(s_ptr, word, labels);
+            instruction = parse_line(s_ptr, word, labels, curlabel);
             instruction = htons(instruction);
             fwrite(&instruction, sizeof(uint16_t), 1, a_ptr);
         }
